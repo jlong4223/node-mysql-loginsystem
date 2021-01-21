@@ -1,14 +1,17 @@
 // express
 const express = require("express");
+const dotenv = require("dotenv");
 
-// importing mysql
+dotenv.config({ path: "./.env" });
+
+// importing and running mysql
 const mysql = require("mysql");
 const db = mysql.createConnection({
   // host is localhost or IP address if using server
-  host: "localhost",
+  host: process.env.HOST,
   user: "root",
   password: "root",
-  database: "nodejs-login",
+  database: process.env.DATABASE,
 });
 db.connect((err) => {
   if (err) {
