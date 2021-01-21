@@ -9,3 +9,5 @@ This is a node.js and mySQL login system that includes protected routes based on
 - mySQL
 - MAMP
 - PHP MyAdmin
+- dotenv
+- handlebars.js (hbs view engine)
