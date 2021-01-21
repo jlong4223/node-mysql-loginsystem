@@ -1,5 +1,7 @@
 // express
 const express = require("express");
+const app = express();
+const path = require("path");
 const dotenv = require("dotenv");
 
 dotenv.config({ path: "./.env" });
@@ -13,6 +15,13 @@ const db = mysql.createConnection({
   password: "root",
   database: process.env.DATABASE,
 });
+
+// dirname is the file you are in, we are joining this directory with the public using path - this have express use it
+const publicDirectory = path.join(__dirname, "./public");
+app.use(express.static(publicDirectory));
+app.set("view engine", "hbs");
+
+// connecting to the database
 db.connect((err) => {
   if (err) {
     console.log(err);
@@ -21,12 +30,12 @@ db.connect((err) => {
   }
 });
 
-const app = express();
-
+// Routes
 app.get("/", (req, res) => {
   res.send("<h1>Home Page</h1>");
 });
 
+// Running the server
 const port = process.env.PORT || 3306;
 app.listen(port, function () {
   console.log(`Server is running on port ${port}`);
