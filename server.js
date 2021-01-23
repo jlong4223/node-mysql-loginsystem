@@ -36,6 +36,9 @@ db.connect((err) => {
 app.get("/", (req, res) => {
   res.render("index");
 });
+app.get("/register", (req, res) => {
+  res.render("register");
+});
 
 // Running the server
 const port = process.env.PORT || 3306;
