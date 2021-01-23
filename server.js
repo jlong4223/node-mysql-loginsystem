@@ -11,17 +11,17 @@ const authRouter = require("./routes/auth");
 // getting the .env file
 dotenv.config({ path: "./.env" });
 
-// importing and running mysql
+// importing and running mysql ==========================
 const mysql = require("mysql");
 const db = mysql.createConnection({
   // host is localhost or IP address if using server
-  host: process.env.HOST,
+  host: "localhost",
   user: "root",
   password: "root",
-  database: process.env.DATABASE,
+  database: "nodejs-login",
 });
 
-// middleware
+// middleware ===============================
 app.set("view engine", "hbs");
 // dirname is the file you are in, we are joining this directory with the public using path - then have express use it
 const publicDirectory = path.join(__dirname, "./public");
@@ -31,12 +31,12 @@ app.use(express.urlencoded({ extended: false }));
 // allows us to log the data as json
 app.use(express.json());
 
-// connecting to the database
+// connecting to the database =========================
 db.connect((err) => {
   if (err) {
     console.log(err);
   } else {
-    console.log("MYSQL Connected...");
+    console.log(`MYSQL Connected...`);
   }
 });
 
