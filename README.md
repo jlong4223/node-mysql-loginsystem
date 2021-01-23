@@ -11,3 +11,6 @@ This is a node.js and mySQL login system that includes protected routes based on
 - PHP MyAdmin
 - dotenv
 - handlebars.js (hbs view engine)
+- HTML5
+- CSS3
+- Bootstrap
