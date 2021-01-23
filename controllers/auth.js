@@ -1,3 +1,5 @@
+// stopped at 23min
+
 // import modules in here
 const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
@@ -44,6 +46,25 @@ exports.register = (req, res) => {
 
       let hashedPassword = await bcrypt.hash(password, 8);
       console.log(hashedPassword);
+
+      db.query(
+        "INSERT INTO users SET ?",
+        {
+          name: name,
+          email: email,
+          password: hashedPassword,
+        },
+        (error, results) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log(results);
+            res.render("register", {
+              message: "User registered",
+            });
+          }
+        }
+      );
     }
   );
 };
