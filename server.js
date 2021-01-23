@@ -16,9 +16,11 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
-// dirname is the file you are in, we are joining this directory with the public using path - this have express use it
+// dirname is the file you are in, we are joining this directory with the public using path - then have express use it
 const publicDirectory = path.join(__dirname, "./public");
 app.use(express.static(publicDirectory));
+
+// middleware
 app.set("view engine", "hbs");
 
 // connecting to the database
@@ -32,7 +34,7 @@ db.connect((err) => {
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("<h1>Home Page</h1>");
+  res.render("index");
 });
 
 // Running the server
