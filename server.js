@@ -1,9 +1,11 @@
-// express
+// express and modules
 const express = require("express");
 const app = express();
 const path = require("path");
 const dotenv = require("dotenv");
 
+// imports routes
+const pagesRouter = require("./routes/pages");
 dotenv.config({ path: "./.env" });
 
 // importing and running mysql
@@ -16,12 +18,11 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
+// middleware
+app.set("view engine", "hbs");
 // dirname is the file you are in, we are joining this directory with the public using path - then have express use it
 const publicDirectory = path.join(__dirname, "./public");
 app.use(express.static(publicDirectory));
-
-// middleware
-app.set("view engine", "hbs");
 
 // connecting to the database
 db.connect((err) => {
@@ -32,13 +33,8 @@ db.connect((err) => {
   }
 });
 
-// Routes
-app.get("/", (req, res) => {
-  res.render("index");
-});
-app.get("/register", (req, res) => {
-  res.render("register");
-});
+// Routes being used
+app.use("/", pagesRouter);
 
 // Running the server
 const port = process.env.PORT || 3306;
