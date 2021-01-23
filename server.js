@@ -6,6 +6,9 @@ const dotenv = require("dotenv");
 
 // imports routes
 const pagesRouter = require("./routes/pages");
+const authRouter = require("./routes/auth");
+
+// getting the .env file
 dotenv.config({ path: "./.env" });
 
 // importing and running mysql
@@ -23,6 +26,10 @@ app.set("view engine", "hbs");
 // dirname is the file you are in, we are joining this directory with the public using path - then have express use it
 const publicDirectory = path.join(__dirname, "./public");
 app.use(express.static(publicDirectory));
+// parse so we can grab data from forms
+app.use(express.urlencoded({ extended: false }));
+// allows us to log the data as json
+app.use(express.json());
 
 // connecting to the database
 db.connect((err) => {
@@ -35,6 +42,7 @@ db.connect((err) => {
 
 // Routes being used
 app.use("/", pagesRouter);
+app.use("/auth", authRouter);
 
 // Running the server
 const port = process.env.PORT || 3306;
