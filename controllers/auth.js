@@ -117,17 +117,37 @@ exports.isLoggedIn = async (req, res, next) => {
   console.log(req.cookies);
   if (req.cookies.jwt) {
     try {
+      // 1) verifying the token
       // the below will decode the token to get the id of the user logged in based on the cookie name which is jwt
       const decoded = await util.promisify(jwt.verify)(
         req.cookies.jwt,
         "secret"
       );
-
       console.log(decoded);
+
+      // 2) check if the user is in the db by grabbing the decoded token id and looking in the db
+      // the array is called the positional parameters
+      db.query(
+        "SELECT * FROM users WHERE id = ?",
+        [decoded.id],
+        (error, result) => {
+          // check the console to see the user that matched
+          console.log(result);
+          if (!result) {
+            return next();
+          }
+          //  just grabbing one - the first value in the users
+          // i can now use this variable in the route
+          req.user = result[0];
+          return next();
+        }
+      );
     } catch (error) {
       console.log(error);
+      return next();
     }
+  } else {
+    // next allows the route to do the next thing aka render the page
+    next();
   }
-  // next allows the route to do the next thing aka render the page
-  next();
 };
