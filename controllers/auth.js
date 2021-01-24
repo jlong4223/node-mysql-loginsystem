@@ -1,5 +1,3 @@
-// stopped at 23min
-
 // import modules in here
 const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
@@ -67,4 +65,49 @@ exports.register = (req, res) => {
       );
     }
   );
+};
+
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).render("login", {
+        message: "Please provide email and password",
+      });
+    }
+    db.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email],
+      async (error, results) => {
+        console.log(results);
+        // there should only be one in the database so im using 0, which is 1
+        if (
+          !results ||
+          //   comparing given password with hashed password
+          !(await bcrypt.compare(password, results[0].password))
+        ) {
+          res.status(401).render("login", {
+            message: "Email or Password is incorrect",
+          });
+        } else {
+          const id = results[0].id;
+          // set the secret
+          const token = jwt.sign({ id }, "secret", {
+            expiresIn: "90d",
+          });
+          console.log("the token is: " + token);
+          // putting cookies in the browser - can check dev tools application to see cookie after login
+          const cookieOptions = {
+            expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+          };
+          res.cookie("jwt", token, cookieOptions);
+          res.status(200).redirect("/");
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
