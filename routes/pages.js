@@ -4,6 +4,7 @@ const authController = require("../controllers/auth");
 
 router.get("/", authController.isLoggedIn, (req, res) => {
   res.render("index", {
+    // passing user to the hbs
     user: req.user,
   });
 });
