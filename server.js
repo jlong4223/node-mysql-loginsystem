@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
 
 // imports routes
 const pagesRouter = require("./routes/pages");
@@ -30,6 +31,8 @@ app.use(express.static(publicDirectory));
 app.use(express.urlencoded({ extended: false }));
 // allows us to log the data as json
 app.use(express.json());
+// initializing cookie parser to set up cookies
+app.use(cookieParser());
 
 // connecting to the database =========================
 db.connect((err) => {
