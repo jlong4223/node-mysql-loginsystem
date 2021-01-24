@@ -2,6 +2,7 @@
 const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const util = require("util");
 
 // connecting to the db
 const db = mysql.createConnection({
@@ -110,4 +111,23 @@ exports.login = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+exports.isLoggedIn = async (req, res, next) => {
+  console.log(req.cookies);
+  if (req.cookies.jwt) {
+    try {
+      // the below will decode the token to get the id of the user logged in based on the cookie name which is jwt
+      const decoded = await util.promisify(jwt.verify)(
+        req.cookies.jwt,
+        "secret"
+      );
+
+      console.log(decoded);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  // next allows the route to do the next thing aka render the page
+  next();
 };
