@@ -16,7 +16,14 @@ router.get("/login", (req, res) => {
 
 // using middleware to check if there is a user before allowing to profile page
 router.get("/profile", authController.isLoggedIn, (req, res) => {
-  res.render("profile");
+  if (req.user) {
+    res.render("profile", {
+      // this is how to pass info to the hbs file
+      user: req.user,
+    });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 module.exports = router;
