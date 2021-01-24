@@ -16,3 +16,4 @@ This is a node.js and mySQL login system that includes protected routes based on
 - Bootstrap
 - bcryptjs
 - jsonwebtoken
+- cookie-parser

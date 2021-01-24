@@ -41,7 +41,7 @@ exports.register = (req, res) => {
           message: "passwords do not match",
         });
       }
-
+      //   8 is the salt rounds
       let hashedPassword = await bcrypt.hash(password, 8);
       console.log(hashedPassword);
 
