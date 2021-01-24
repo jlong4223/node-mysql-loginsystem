@@ -26,3 +26,12 @@ nav li a:hover {
   color: yellow;
   text-decoration: none;
 }
+
+.avatar-ctn {
+  background-color: orange;
+  text-align: center;
+}
+
+.avatar {
+  border-bottom: 1px solid #000;
+}
