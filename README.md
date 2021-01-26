@@ -17,3 +17,13 @@ This is a node.js and mySQL login system that includes protected routes based on
 - bcryptjs
 - jsonwebtoken
 - cookie-parser
+
+## Screenshots
+
+#### Before a user logs in:
+
+![nologin](./images/before-login.png)
+
+#### Logged in user, profile page and jwt:
+
+![loggedin](./images/loggedin-jwt-user.png)
