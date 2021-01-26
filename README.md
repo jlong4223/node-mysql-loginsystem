@@ -1,4 +1,4 @@
-# Node.js and mySQL
+# Secure Login
 
 This is a node.js and mySQL login system that includes protected routes based on a user.
 
