@@ -103,6 +103,7 @@ exports.login = async (req, res) => {
             expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
             httpOnly: true,
           };
+          //   res.cookie is creating the cookie named jwt(could be anything), as the token value(the actual jwt created) and the expiration date of the cookie)
           res.cookie("jwt", token, cookieOptions);
           res.status(200).redirect("/");
         }
@@ -150,4 +151,13 @@ exports.isLoggedIn = async (req, res, next) => {
     // next allows the route to do the next thing aka render the page
     next();
   }
+};
+
+exports.logout = async (req, res) => {
+  res.cookie("jwt", "logout", {
+    expires: new Date(Date.now() + 2 * 1000),
+    // only allow http browser to do this
+    httpOnly: true,
+  });
+  res.status(200).redirect("/");
 };
